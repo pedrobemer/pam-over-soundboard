@@ -76,6 +76,20 @@ else
     y_signal = x_signal;
 end 
 
+% Calculate Eb/No
+noise = ones(length(y_signal),1);
+r_noise_dBW = SNR - r_power;
+% r_noise_watts = 10^(r_noise_dBW/10);
+% energy_joules = r_noise_watts*length(noise);
+% noise_up = sqrt(energy_joules/length(y_signal))*noise;
+n = awgn(noise,-r_noise_dBW);
+% Energy per Bit
+Eb = power_payload/log2(M);
+
+% Noise PSD
+psd_noise = pwelch(n);
+psd_noise_dBW = 10*log10(psd_noise);
+
 
 %% Receiver
 
